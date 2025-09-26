@@ -1,27 +1,237 @@
-# SAGE: An AI Co-pilot for ETABS (A Research Preview)
+# ETABS Copilot - AI-Powered Structural Engineering Code Generator
 
-This repository contains a demonstration of SAGE (Structural Analysis Generation Engine), a novel AI co-pilot designed to automate structural engineering workflows in ETABS through natural language.
+A VS Code extension that revolutionizes ETABS structural modeling by combining specialized AI agents with GitHub Copilot for intelligent code generation and enhancement.
 
-This tool is the implementation of a framework developed as part of an ongoing research project at the Stevens Institute of Technology. The core innovation is a multi-agent system grounded by a curated Knowledge Graph, which enables the reliable translation of engineering commands into executable, error-free API code, solving the critical problem of LLM hallucination in specialized domains.
+## Overview
 
-## Live Demonstration
+ETABS Copilot bridges the gap between natural language descriptions and production-ready ETABS API code. The extension generates clean, functional ETABS scripts while creating domain-specific knowledge files that enable GitHub Copilot to provide contextually-aware code enhancements.
 
-The following animation shows the end-to-end workflow of the co-pilot integrated directly into Visual Studio Code. The process demonstrates a user initiating a task with a natural language command, the framework generating factually-grounded code, and the final script being executed to retrieve results from ETABS.
+## Key Features
 
-![ETABS Co-pilot Demo](etabs-demo.gif)
-*Note: Replace `etabs-demo.gif` with the exact filename you uploaded.*
+### 🚀 Intelligent Code Generation
+- **Natural Language Input**: Transform comments like `# etabs: create steel frame building` into complete ETABS scripts
+- **Domain-Specific AI**: Leverages specialized agents trained on structural engineering knowledge
+- **Clean Output**: Generates production-ready ETABS code without embedded comments or clutter
 
-## Core Features
+### 🤖 GitHub Copilot Integration  
+- **Domain Knowledge Injection**: Automatically creates `.etabs-knowledge.md` files with architectural context
+- **Enhanced Code Suggestions**: GitHub Copilot references structural engineering knowledge for better enhancements
+- **Seamless Workflow**: Generated code + domain knowledge = smarter AI assistance
 
--   **Natural Language to Code:** Translates plain English commands into executable Python scripts for the ETABS API.
--   **Knowledge Graph Grounding:** Utilizes a curated Knowledge Graph to ensure the generated code is accurate and free of hallucinations.
--   **IDE Integration:** Works directly within VS Code for a seamless and professional user experience.
--   **Synergistic Workflow:** Generates "just-in-time" context that enhances the capabilities of general-purpose AI assistants like GitHub Copilot for code refinement.
+### ⚡ Multiple Trigger Methods
+- **Auto-Generation**: Type trigger comments and press Enter for instant code generation
+- **Manual Selection**: Select text and right-click for on-demand generation
+- **Command Palette**: Access via `Ctrl+Shift+P` → "ETABS Copilot: Generate Script"
 
-## Research Context
+### 🏗️ Comprehensive ETABS Support
+- Model initialization and connection handling
+- Material property definitions
+- Geometric element creation
+- Load pattern and case management
+- Analysis execution and result extraction
+- Error handling and validation patterns
 
-This work is part of a forthcoming research paper to be submitted to the journal *Automation in Construction*.
+## How It Works
 
-**Authors:** Jinxin Chen, Yi Bao
-**Institution:** Department of Civil, Environmental and Ocean Engineering, Stevens Institute of Technology, Hoboken, NJ
-**Contact:** yi.bao@stevens.edu
+### 1. AI-Powered Generation
+The extension connects to a sophisticated AI framework featuring:
+- **Planner Agent**: Develops architectural plans from user queries
+- **Code Generator Agent**: Creates ETABS API code following best practices  
+- **Knowledge Graph**: Retrieves domain-specific engineering knowledge
+- **Multiple LLM Integration**: Utilizes DeepSeek, Gemini, and Claude for specialized tasks
+
+### 2. Domain Knowledge Creation
+For every generation, the extension creates a workspace knowledge file containing:
+- Architectural planning context
+- Domain-specific engineering steps
+- ETABS API patterns and best practices
+- Structural engineering validation rules
+
+### 3. GitHub Copilot Enhancement
+With domain knowledge available, GitHub Copilot can provide:
+- Structural engineering-specific error handling
+- ETABS API compliance suggestions
+- Design validation and engineering checks
+- Context-aware code improvements
+
+## Live Demo: Counting Beams and Columns
+
+### Step 1: Natural Language Input
+```python
+# etabs: Please help me count the number of beams and columns in each story.
+```
+*Press Enter → Extension generates clean ETABS code*
+
+### Step 2: Generated Code (20 lines)
+```python
+import comtypes.client
+helper = comtypes.client.CreateObject('ETABSv1.Helper')
+helper = helper.QueryInterface(comtypes.gen.ETABSv1.cHelper)
+SapModel = helper.GetObject("CSI.ETABS.API.ETABSObject").SapModel
+
+# Retrieve story names and initialize counters
+num_stories, story_names, ret = SapModel.Story.GetNameList()
+story_beam_counts = {story: 0 for story in story_names}
+story_column_counts = {story: 0 for story in story_names}
+
+# Count beams and columns per story
+for story in story_names:
+    frame_obj_num, frame_ID_tuple, ret = SapModel.FrameObj.GetNameListOnStory(story)
+    for frame_ID in frame_ID_tuple:
+        point_1, point_2, ret = SapModel.FrameObj.GetPoints(frame_ID)
+        X1, Y1, Z1, ret = SapModel.PointObj.GetCoordCartesian(point_1)
+        X2, Y2, Z2, ret = SapModel.PointObj.GetCoordCartesian(point_2)
+        
+        tolerance = 1e-3
+        if abs(Z1 - Z2) < tolerance:
+            story_beam_counts[story] += 1
+        else:
+            story_column_counts[story] += 1
+
+# Display results
+for story in story_names:
+    print(f"Story: {story}, Beams: {story_beam_counts[story]}, Columns: {story_column_counts[story]}")
+```
+
+### Step 3: Domain Knowledge File Created
+```markdown
+# ETABS Domain Knowledge
+**User Query:** Please help me count the number of beams and columns in each story.
+
+## Domain-Specific Knowledge Steps
+### Step 1: ETABS API Knowledge
+- GetNameList - Retrieves story names
+- GetNameListOnStory - Gets frame objects on specific story
+- GetPoints - Gets end point coordinates for classification...
+```
+
+### Step 4: GitHub Copilot Enhancement
+With both the generated code and .etabs-knowledge.md file in workspace:
+
+**User**: "Please help me enhance the code"
+
+**GitHub Copilot automatically references the domain knowledge file and transforms the basic code into production-ready software.**
+
+### Step 5: Enhanced Code Features
+- **Robust Error Handling**: COM API exception handling with meaningful messages
+- **Modular Architecture**: Separate functions for connection, classification, and export
+- **Command Line Interface**: `--tolerance` and `--csv` options for flexibility  
+- **Engineering Validation**: Proper tolerance handling and coordinate validation
+- **Professional Documentation**: Comprehensive docstrings and usage examples
+- **Data Export**: CSV export capability for further analysis
+- **Input Validation**: Bounds checking and type validation for all parameters
+
+## Key Transformation Metrics
+
+**From Natural Language to Production Code:**
+- **Input**: Single comment line requesting beam/column counting
+- **Generated**: 20 lines of functional ETABS code  
+- **Enhanced**: 100+ lines of production-ready software
+- **Features Added**: Error handling, CLI, CSV export, validation, documentation
+
+**Domain Knowledge Impact:**
+- GitHub Copilot referenced specific ETABS API patterns from knowledge file
+- Applied structural engineering tolerance concepts (1e-3 precision)
+- Implemented COM interface error handling best practices
+- Added engineering-specific validation and warning messages
+
+**Professional Software Features:**
+- Command-line arguments (`--tolerance`, `--csv`)
+- Modular function architecture for reusability
+- Comprehensive error handling with meaningful messages
+- Data export capabilities for engineering analysis
+- Input validation and bounds checking
+- Professional documentation and type hints
+
+## Architecture
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   VS Code       │    │   Flask API      │    │  AI Framework   │
+│   Extension     │    │   Server         │    │                 │
+│                 │    │                  │    │ ┌─────────────┐ │
+│ ┌─────────────┐ │    │ ┌──────────────┐ │    │ │   Planner   │ │
+│ │   Trigger   │◄├────┤ │  /generate   │◄├────┤ │    Agent    │ │
+│ │  Detection  │ │    │ │   endpoint   │ │    │ └─────────────┘ │
+│ └─────────────┘ │    │ └──────────────┘ │    │ ┌─────────────┐ │
+│                 │    │                  │    │ │    Code     │ │
+│ ┌─────────────┐ │    │                  │    │ │  Generator  │ │
+│ │  Knowledge  │ │    │                  │    │ │    Agent    │ │
+│ │File Creator │ │    │                  │    │ └─────────────┘ │
+│ └─────────────┘ │    │                  │    │ ┌─────────────┐ │
+└─────────────────┘    └──────────────────┘    │ │ Knowledge   │ │
+                                               │ │   Graph     │ │
+┌─────────────────┐                            │ └─────────────┘ │
+│ GitHub Copilot  │                            └─────────────────┘
+│                 │
+│ ┌─────────────┐ │
+│ │  Enhanced   │ │
+│ │Suggestions  │ │
+│ └─────────────┘ │
+└─────────────────┘
+```
+
+## Technical Highlights
+
+### ETABS API Expertise
+- Proper object initialization sequences
+- Unit management and coordinate systems
+- Error handling and validation patterns
+
+### VS Code Integration
+- Native extension architecture
+- Real-time document change detection
+- Progress notifications and cancellation support
+- Command palette and context menu integration
+
+## Use Cases
+
+### Structural Engineers
+- Rapid prototyping of ETABS models
+- Learning ETABS API patterns and best practices
+- Generating boilerplate code for common operations
+- Exploring structural modeling approaches
+
+### Engineering Software Developers  
+- ETABS API code examples and templates
+- Integration patterns for structural analysis workflows
+- Error handling and validation implementations
+- Educational resource for ETABS programming
+
+### Research Applications
+- Automated model generation for parametric studies
+- Batch processing workflows for structural analysis
+- Integration with optimization algorithms
+- Educational tool for structural engineering courses
+
+## Benefits
+
+### For Individual Engineers
+- **Faster Development**: Minutes instead of hours for model setup
+- **Learning Tool**: Understand ETABS API through generated examples
+- **Error Reduction**: AI-generated code follows established patterns
+- **Enhanced Productivity**: Focus on engineering instead of programming syntax
+
+### For Engineering Teams
+- **Standardization**: Consistent code patterns across projects
+- **Knowledge Sharing**: Domain expertise embedded in generated code
+- **Onboarding**: New team members learn ETABS programming faster  
+- **Quality Assurance**: AI-validated code reduces bugs and errors
+
+### For the Engineering Community
+- **Accessibility**: Makes ETABS programming accessible to more engineers
+- **Innovation**: Enables rapid exploration of structural modeling ideas
+- **Education**: Provides practical examples for learning structural programming
+- **Collaboration**: Shared knowledge base improves with each generation
+
+## Future Enhancements
+
+- Support for additional structural analysis software (SAP2000, SAFE, etc.)
+- Integration with other AI coding assistants
+- Custom domain knowledge training
+- Team collaboration features
+- Enhanced validation and verification capabilities
+
+---
+
+**Note**: This is a research demonstration showcasing the integration of specialized AI agents with GitHub Copilot for domain-specific code generation in structural engineering.
