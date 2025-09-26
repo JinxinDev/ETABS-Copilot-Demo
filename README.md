@@ -55,7 +55,7 @@ With domain knowledge available, GitHub Copilot can provide:
 - Context-aware code improvements
 
 ## Live Demo: Counting Beams and Columns
-
+![Animation_3-ezgif com-optimize](https://github.com/user-attachments/assets/fadc14cb-35f6-47d0-9914-2bd36642ba96)
 ### Step 1: Natural Language Input
 ```python
 # etabs: Please help me count the number of beams and columns in each story.
@@ -146,29 +146,29 @@ With both the generated code and .etabs-knowledge.md file in workspace:
 ## Architecture
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   VS Code       │    │   Flask API      │    │  AI Framework   │
-│   Extension     │    │   Server         │    │                 │
-│                 │    │                  │    │ ┌─────────────┐ │
-│ ┌─────────────┐ │    │ ┌──────────────┐ │    │ │   Planner   │ │
-│ │   Trigger   │◄├────┤ │  /generate   │◄├────┤ │    Agent    │ │
-│ │  Detection  │ │    │ │   endpoint   │ │    │ └─────────────┘ │
-│ └─────────────┘ │    │ └──────────────┘ │    │ ┌─────────────┐ │
-│                 │    │                  │    │ │    Code     │ │
-│ ┌─────────────┐ │    │                  │    │ │  Generator  │ │
-│ │  Knowledge  │ │    │                  │    │ │    Agent    │ │
-│ │File Creator │ │    │                  │    │ └─────────────┘ │
-│ └─────────────┘ │    │                  │    │ ┌─────────────┐ │
-└─────────────────┘    └──────────────────┘    │ │ Knowledge   │ │
-                                               │ │   Graph     │ │
-┌─────────────────┐                            │ └─────────────┘ │
-│ GitHub Copilot  │                            └─────────────────┘
-│                 │
-│ ┌─────────────┐ │
-│ │  Enhanced   │ │
-│ │Suggestions  │ │
-│ └─────────────┘ │
-└─────────────────┘
+                                        ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+                                        │   VS Code       │    │   Flask API      │    │  AI Framework   │
+                                        │   Extension     │    │   Server         │    │                 │
+                                        │                 │    │                  │    │ ┌─────────────┐ │
+                                        │ ┌─────────────┐ │    │ ┌──────────────┐ │    │ │   Planner   │ │
+                                        │ │   Trigger   │◄├────┤ │  /generate   │◄├────┤ │    Agent    │ │
+                                        │ │  Detection  │ │    │ │   endpoint   │ │    │ └─────────────┘ │
+                                        │ └─────────────┘ │    │ └──────────────┘ │    │ ┌─────────────┐ │
+                                        │                 │    │                  │    │ │    Code     │ │
+                                        │ ┌─────────────┐ │    │                  │    │ │  Generator  │ │
+                                        │ │  Knowledge  │ │    │                  │    │ │    Agent    │ │
+                                        │ │File Creator │ │    │                  │    │ └─────────────┘ │
+                                        │ └─────────────┘ │    │                  │    │ ┌─────────────┐ │
+                                        └─────────────────┘    └──────────────────┘    │ │ Knowledge   │ │
+                                                                                       │ │   Graph     │ │
+                                        ┌─────────────────┐                            │ └─────────────┘ │
+                                        │ GitHub Copilot  │                            └─────────────────┘
+                                        │                 │
+                                        │ ┌─────────────┐ │
+                                        │ │  Enhanced   │ │
+                                        │ │Suggestions  │ │
+                                        │ └─────────────┘ │
+                                        └─────────────────┘
 ```
 
 ## Technical Highlights
