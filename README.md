@@ -226,7 +226,7 @@ With both the generated code and .etabs-knowledge.md file in workspace:
 
 ## Future Enhancements
 
-- Support for additional structural analysis software (SAP2000, SAFE, etc.)
+- Support for additional structural analysis software (SAP2000, PKPM, YJK, ABAQUS, etc.)
 - Integration with other AI coding assistants
 - Custom domain knowledge training
 - Team collaboration features
