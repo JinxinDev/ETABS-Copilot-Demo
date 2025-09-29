@@ -143,34 +143,6 @@ With both the generated code and .etabs-knowledge.md file in workspace:
 - Input validation and bounds checking
 - Professional documentation and type hints
 
-## Architecture
-
-```
-                        ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-                        │   VS Code       │    │   Flask API      │    │  AI Framework   │
-                        │   Extension     │    │   Server         │    │                 │
-                        │                 │    │                  │    │ ┌─────────────┐ │
-                        │ ┌─────────────┐ │    │ ┌──────────────┐ │    │ │   Planner   │ │
-                        │ │   Trigger   │◄├────┤ │  /generate   │◄├────┤ │    Agent    │ │
-                        │ │  Detection  │ │    │ │   endpoint   │ │    │ └─────────────┘ │
-                        │ └─────────────┘ │    │ └──────────────┘ │    │ ┌─────────────┐ │
-                        │                 │    │                  │    │ │    Code     │ │
-                        │ ┌─────────────┐ │    │                  │    │ │  Generator  │ │
-                        │ │  Knowledge  │ │    │                  │    │ │    Agent    │ │
-                        │ │File Creator │ │    │                  │    │ └─────────────┘ │
-                        │ └─────────────┘ │    │                  │    │ ┌─────────────┐ │
-                        └─────────────────┘    └──────────────────┘    │ │ Knowledge   │ │
-                                                                       │ │   Graph     │ │
-                        ┌─────────────────┐                            │ └─────────────┘ │
-                        │ GitHub Copilot  │                            └─────────────────┘
-                        │                 │
-                        │ ┌─────────────┐ │
-                        │ │  Enhanced   │ │
-                        │ │Suggestions  │ │
-                        │ └─────────────┘ │
-                        └─────────────────┘
-```
-
 ## Technical Highlights
 
 ### ETABS API Expertise
